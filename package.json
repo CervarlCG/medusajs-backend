@@ -13,15 +13,15 @@
     "medusa"
   ],
   "scripts": {
-    "clean": "node_modules/cross-env/src/bin/cross-env.js ./node_modules/.bin/rimraf dist",
-    "build": "node_modules/cross-env/src/bin/cross-env.js npm run clean && tsc -p tsconfig.json",
-    "watch": "node_modules/cross-env/src/bin/cross-env.js tsc --watch",
-    "test": "node_modules/cross-env/src/bin/cross-env.js jest",
-    "seed": "node_modules/cross-env/src/bin/cross-env.js medusa seed -f ./data/seed.json",
-    "start": "node_modules/cross-env/src/bin/cross-env.js npm run build && medusa start",
-    "start:custom": "node_modules/cross-env/src/bin/cross-env.js npm run build && node --preserve-symlinks index.js",
-    "dev": "node_modules/cross-env/src/bin/cross-env.js npm run build && medusa develop",
-    "build:admin": "node_modules/cross-env/src/bin/cross-env.js medusa-admin build"
+    "clean": "./node_modules/.bin/rimraf dist",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "seed": "medusa seed -f ./data/seed.json",
+    "start": "npm run build && medusa start",
+    "start:custom": "npm run build && node --preserve-symlinks index.js",
+    "dev": "npm run build && medusa develop",
+    "build:admin": "medusa-admin build"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.4",
