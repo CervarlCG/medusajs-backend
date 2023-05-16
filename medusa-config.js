@@ -31,7 +31,7 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 const DATABASE_TYPE = process.env.DATABASE_TYPE || "sqlite";
 const DATABASE_URL =
   process.env.DATABASE_URL || "postgres://localhost/medusa-store";
-const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const REDIS_URL = process.env.REDIS_URL;
 
 const plugins = [
   `medusa-fulfillment-manual`,
@@ -41,23 +41,17 @@ const plugins = [
     resolve: "@medusajs/admin",
     /** @type {import('@medusajs/admin').PluginOptions} */
     options: {
-      autoRebuild: false,
+      autoRebuild: true,
     },
   },
 ];
 
 const modules = {
-  eventBus: {
-    resolve: "@medusajs/event-bus-redis",
-    options: {
-      redisUrl: REDIS_URL,
-    },
+  inventoryService: {
+    resolve: "@medusajs/inventory",
   },
-  cacheService: {
-    resolve: "@medusajs/cache-redis",
-    options: {
-      redisUrl: REDIS_URL,
-    },
+  stockLocationService: {
+    resolve: "@medusajs/stock-location",
   },
 };
 
@@ -69,9 +63,9 @@ const projectConfig = {
   database_type: DATABASE_TYPE,
   store_cors: STORE_CORS,
   admin_cors: ADMIN_CORS,
-  // Uncomment the following lines to enable REDIS
-  redis_url: REDIS_URL,
 };
+
+if (REDIS_URL) projectConfig.redis_url = REDIS_URL;
 
 if (DATABASE_URL && DATABASE_TYPE === "postgres") {
   projectConfig.database_url = DATABASE_URL;
@@ -82,5 +76,5 @@ if (DATABASE_URL && DATABASE_TYPE === "postgres") {
 module.exports = {
   projectConfig,
   plugins,
-  //modules,
+  modules,
 };
